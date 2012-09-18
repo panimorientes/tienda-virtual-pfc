@@ -1,0 +1,20 @@
+#![Borrar Producto (Escenario Normal)]
+
+Administrador:Actor
+i:InterfazGráfica
+m:MóduloGestiónProductos
+p:MóduloPersistencia
+
+
+Administrador:i.Introducir Artículo
+i:m.Artículo Pedido
+m:p.Buscar Artículo
+p:m.Artículo Buscado
+m:i.Devolver Artículo Pedido
+i:i.Refrescar
+Administrador:i.Borrar Producto Pedido
+i:m.Borrar Producto Seleccionado
+m:p.Borrar Producto Seleccionado
+p:m.Borrado del Producto Correcto
+m:i.Borrado del Producto Correcto
+i:i.Refrescar

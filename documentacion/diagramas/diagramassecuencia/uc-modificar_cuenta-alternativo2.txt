@@ -1,0 +1,14 @@
+#![Modificar cuenta (escenario alternativo 2)]
+visitante:Actor
+w:Ventana de modificación
+i:Gestor de usuarios
+p:Persistencia
+
+visitante:w.botón de eliminar cuenta
+
+w:i.eliminar cuenta
+i:p.datos modificados
+p:i.cuenta eliminada
+i:w.cuenta eliminada
+
+w:visitante.cuenta eliminada

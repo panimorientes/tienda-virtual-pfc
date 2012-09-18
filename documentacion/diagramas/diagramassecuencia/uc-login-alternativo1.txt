@@ -1,0 +1,19 @@
+#![Identificación (escenario alternativo 1)]
+visitante:Actor
+w:Ventana de identificación
+s:Sesion
+i:Gestor de usuarios
+p:Persistencia
+
+visitante:w.rellenar datos
+visitante:w.pulsar botón de entrar
+
+w:s.datos de login
+s:s.¿ya esta autenticado?
+
+w:i.solicitar datos de usuario
+i:p.solicitar datos de usuario
+p:i.error user/pass incorrecto
+i:w.error de autenticación
+
+w:visitante.error de autenticación

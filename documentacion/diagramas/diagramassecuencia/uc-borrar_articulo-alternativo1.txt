@@ -1,0 +1,14 @@
+#![Borrar Producto (Escenario Alternativo)]
+
+Administrador:Actor
+i:InterfazGráfica
+m:MóduloGestiónProductos
+p:MóduloPersistencia
+
+
+Administrador:i.Introducir Artículo
+i:m.Artículo Pedido
+m:p.Buscar Artículo
+p:m.Artículo No Encontrado
+m:i.Devolver Artículo No Encontrado
+i:i.Refrescar mostrando "El artículo seleccionado no existe."

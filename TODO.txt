@@ -1,0 +1,21 @@
+BUGS CONOCIDOS
+
+- Cuando ocurre un login fallido, después no se puede logear bien.
+
+TAREAS
+
+- Quitar la chapuza del sleep para la base de datos
+
+- IMPORTANTE!! comprobar quien eres, para saber a que .jsp puedes acceder (si no estas legueado, y escribes administrar.jsp te cuelas)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+- Pruebas. Hay que tener en cuenta las clases de equivalencia y los valores límite. Los tipos de pruebas a realizar son los siguientes:
+  	- Pruebas unitarias. Pueden ser de caja blanca o caja negra. Las hace el propio desarrollador de cada clase.
+	- Pruebas de integración. Pueden ser de caja blanca o caja negra. Las hacen los desarrolladores implicados.
+	- Pruebas funcionales: se corresponden con los requisitos funcionales. Sólo se realizan de caja negra. Las hacen los testers.
+	- Pruebas de sistema: se corresponden con los requisitos no funcionales (tiempo, carga, estrés...). Sólo se realizan de caja negra. Las hacen los testers.
+	- Pruebas de aceptación. Las hace el grupo de desarrolladores con el cliente.
+	- Pruebas de operación: el sistema se prueba en su entorno real.
+	- Pruebas de SQLException.
+  Algunas herramientas: Pair Wise, http://161.67.140.42/CombTestWeb

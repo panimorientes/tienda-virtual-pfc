@@ -1,0 +1,13 @@
+#![Obtener Productos (escenario normal)]
+Sistema:Actor
+m:ModuloGestiónProductos
+p:Persistencia
+i:InterfazGráfica
+
+Sistema:m.Pedir Datos
+m:p.obtener todos los productos
+p:m.Datos de todos los productos
+m:Sistema.Proporcionar información productos
+
+Sistema:i.Enviar Datos
+i:i.Recargar la página

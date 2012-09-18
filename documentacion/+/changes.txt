@@ -1,0 +1,24 @@
+-- ULTIMOS CAMBIOS (15-Agosto-2011) ------------------------------------------------------
+
+- Añadido al final un Índice de términos. Dicho índice se crea automáticamente con las palabras que encerremos en \index{} a lo largo del documento. Por ejemplo: \index{palabra} hará que la palabra "palabra" se añada al índice de términos. Para categorizar unos términos dentro de otros: \index{padre!hijo}
+- Pequeña reestructuración del documento
+- Arreglado un bug en la macro "imagenhere"
+- Mejorado el makefile
+- Pequeños cambios en la contraportada
+
+-- CAMBIOS ANTERIORES --------------------------------------------------------------------
+
+- Añadido el import de hyperref, para links en índices y referencias.
+- Cambiada la portada
+- Reestructurada la jerarquía de directorios
+- Añadido el entorno term, similar a terminal pero optimizando los márgenes respecto al texto.
+- Añadido un pequeño espacio de separación entre párrafos
+- Optimizada la inclusión de código fuente
+- Añadida la incrustación de grafos (el sistema requiere tener instalado el paquete "dot2tex")
+- Aumentada un poco el tamaño de letra del teclazo
+- Toquiteadas un pelín las imagenes y notas al margen
+- Optimizado el tamaño y la situación de las letras capitales
+- Toquiteadas las notas al margen
+- Mejorados los cuadros \importante para incluir el icono en el propio cuadro. QUEDA CHULO!
+- Mejorada la macro de citas
+- Creada una estructura de documento de ejemplo, con resumen, apéndices y demás.

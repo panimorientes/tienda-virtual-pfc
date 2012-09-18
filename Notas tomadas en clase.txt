@@ -1,0 +1,121 @@
+PRÁCTICA 1 (tienda virtual)
+
+Brain storm
+----------------------------------------------------------------------
+
+Registrarse
+Identificarse (autenticación) como cliente
+Identificarse (autenticación) como administrador
+Cerrar sesión
+Modificar cuenta
+Darse de baja como cliente
+Recordar contraseña
+Pagar (en general)
+	  Pagar con tarjeta de crédito
+	  Pagar con Paypal
+Comprar
+Añadir al carro
+Quitar del carro
+Confirmar pedido
+Mostrar artículos
+Buscar artículo
+Altas/bajas/modificaciones de artículos
+Consultar estado de los pedidos
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+CASOS DE USO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+-- AÑADIR AL CARRO ---------------------------------------------------
+Actores: Cliente, SGBD
+Precondiciones: Ninguna
+Descripción: El cliente ... le da al botón ....
+Escenarios posibles:
+ -Escenario normal:
+    1 - El cliente le da al botón de añadir en la web
+	2 - La web le dice al controlador que añada el producto y la cantidad
+  	3 - Si no hay carrito creado, el controlador crea uno
+  	4 - El controlador recupera el producto de la BD a ravés del broker
+	5 - El controlador le dice al carrito que añada el producto
+	6 - El carro actualiza la cantidad si ya tenía el producto, y si no lo añade una vez.
+	Postcondiciones: Si existía un carrito tiene un producto más, si no, ahora hay un carrito con un producto.
+
+Descripción de alto nivel:
++------------------------------+------------------------------+
+|ACTOR                         |SISTEMA                       |
++------------------------------+------------------------------+
+|Le da al botón                |Añade el producto al carro si |
+|                              |existía. Si no, crea el carro |
+|                              |y le mete el producto         |
++------------------------------+------------------------------+
+|...                           |...                           |
++------------------------------+------------------------------+
+|                              |                              |
++------------------------------+------------------------------+
+|                              |                              |
++------------------------------+------------------------------+
+
+ - Escenario alternativo 1: No hay stock del producto que se quiere añadir
+    1 - Igual
+    2 - Igual
+    3 - Igual
+    4 - Igual
+   	5 - Igual
+    6 - Como no hay stock se muestra un diálogo de error.
+    Postcondiciones: Si existe un carrito sigue teniendo los mismos productos, si no existe no se crea.
+
+ - Escenario alternativo 2: El producto ya está en el carro
+   	       -------
+         -/       \-
+       	/  	        \
+Notas:-/           	 \-
+-Las p|econdiciones si|mpre son las mismas para todos los escenarios. Sin embargo, las postcondiciones dependen del escenario.
+   	 /                 \
+    /                   \
+    |        ---   	    |
+   /       -/   \-     	 \
+   |       |     |       |
+   |      /    	  \      |
+   |      |       |      |
+   |      \    	  /      |
+   |       |     |       |
+   \       -\   /-     	 /
+    |        ---   	    |
+    \                   /
+   	 \                 /
+      |               |
+      -\           	 /-
+       	\  	        /
+         -\       /-
+   	       -------
+
+
+
+
+
+
+
+
+%%
+
+En cuanto a cachés, todo lo que hemos visto de "New clean caché", "New delete caché", "Old clean caché", etc. está muy bien, pero para nuestra práctica basta con utilizar una única caché de objetos frecuentes.
+
+kk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

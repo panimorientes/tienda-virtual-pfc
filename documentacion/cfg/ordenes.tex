@@ -1,0 +1,509 @@
+\usepackage[utf8]{inputenc}
+\usepackage{ifthen}
+\usepackage{colortbl}
+\usepackage{fancyvrb}
+\usepackage{captdef}
+\usepackage{fancybox}
+\usepackage{lettrine}
+\usepackage{shadow}
+\usepackage{mparhack}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\definecolor{gris}{rgb}{0.3,0.3,0.3}
+\definecolor{grisclaro}{rgb}{0.85,0.85,0.85}
+\definecolor{grisoscuro}{rgb}{0.2,0.2,0.2}
+\definecolor{comentarios}{rgb}{0.15, 0.15, 0.4}
+\definecolor{grisconsola}{rgb}{0.85,0.85,0.85}
+
+\renewcommand{\LettrineFontHook}{\color[gray]{0.4}}
+
+\graphicspath{{images/}}
+\reversemarginpar
+
+\usepackage{fancyhdr}
+
+%\setlenght\headheight{17pt}
+\fancyhf{}
+\fancyheadoffset[RO,LE]{0pt}
+\fancyheadoffset[LO]{145pt}
+\fancyheadoffset[RE]{145pt}
+\fancyhead[RO,LE]{[\textbf{\thepage}]}
+\fancyhead[LO]{\nouppercase{\rightmark}} % Seccion
+\fancyhead[RE]{\leftmark}  % CAPITULO
+\renewcommand\headrule{\hrule height 1.5pt width\headwidth \vspace{1mm}}
+
+\usepackage{listings}
+\usepackage{courier}
+\renewcommand{\lstlistingname}{Listado}
+
+% Para el dibujado de grafos (requiere tener instalado el paquete dot2tex en el sistema)
+\usepackage[outputdir={./dot/},autosize]{dot2texi}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,automata}
+
+% \lstset{
+%          basicstyle=\footnotesize\ttfamily, 
+%          numbers=left,               
+%          numberstyle=\tiny,          
+%          numbersep=10pt,              
+%          tabsize=2,                  
+%          extendedchars=true,         
+%          breaklines=true,            
+%          keywordstyle=\color{red},
+%          frame=b,
+%          framerule=1pt,
+%          keywordstyle=\color{black}\bfseries,
+%          stringstyle=\color{gris}\ttfamily, 
+%          showspaces=false,           
+%          showtabs=false,             
+%          xleftmargin=17pt,
+%          framexleftmargin=17pt,
+%          framexrightmargin=5pt,
+%          framexbottommargin=4pt,
+%          commentstyle=\color{comentarios},
+%          backgroundcolor=\color{grisclaro},
+%          showstringspaces=false, 
+%          escapeinside={(*@}{@*)}
+%  }
+
+\lstset{tabsize=4,
+        showspaces=false,
+        showtabs=false,
+        frame=b,
+        framerule=1pt,
+        aboveskip=0.5cm,
+        framextopmargin=3pt,
+        framexbottommargin=3pt,
+        framexleftmargin=18pt,
+        framesep=.4pt,
+        rulesep=.4pt,
+        rulesepcolor=\color{grisoscuro},
+        stringstyle=\ttfamily,
+        showstringspaces = false,
+        basicstyle=\footnotesize\ttfamily,
+        commentstyle=\color{gris},
+        keywordstyle=\bfseries,
+        numbers=left,
+        numbersep=6pt,
+        numberstyle=\color[cmyk]{0.43, 0.35, 0.35,0.01}\bfseries\scriptsize\ttfamily,
+        numberfirstline = true,        
+        breaklines=true,
+        stepnumber=1,
+        backgroundcolor=\color{white},
+        xleftmargin=18pt,
+        framexrightmargin=0pt,
+        xrightmargin=0pt
+}
+
+\usepackage{caption}
+\DeclareCaptionFont{white}{\fontsize{9}{9}\selectfont\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{0.982\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\bigrule}{\vspace{-0.5cm}\hspace{-4.95cm}\titlerule[1.0mm]}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\lstnewenvironment{term}{
+  \interlineado{0.92}
+  \lstset{
+    basicstyle=\footnotesize\bf\ttfamily,
+    numbers=none,
+    xleftmargin=3.5pt,
+    frame=none, 
+    breaklines=true, 
+    framexleftmargin=3pt,
+    framexrightmargin=0pt,
+    backgroundcolor=\color{grisclaro},
+  }
+}{\interlineado{1.0}}
+
+%%%%%%%%%%%%%%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ \lstloadlanguages{% Check Dokumentation for further languages ...
+         C, Python
+ }
+
+\lstdefinestyle{C}
+{language=C, }
+
+\lstdefinestyle{P}
+{language=Python, }
+
+\lstdefinestyle{consola}
+{
+  basicstyle=\footnotesize\bf\ttfamily,
+  backgroundcolor=\color{grisconsola},
+}
+
+\def\codigofuente#1#2#3#4{
+  \interlineado{#4}
+  \lstinputlisting[label=#3,caption=#2, style=C]{#1}
+  \interlineado{1.0}
+}
+
+\lstnewenvironment{terminal}
+    {\interlineado{0.92}\lstset{style=consola, numbers=none, frame=none, breaklines=true, frame=l, framexleftmargin=7pt}}
+    {\interlineado{1.0}}
+
+
+
+\def\comando#1{\texttt{\small{#1}}}
+
+\def\linea#1{\fboxsep=0.8mm\fontsize{7}{7}\selectfont\ovalbox{\texttt{\textbf{#1}}}\normalsize}
+
+\def\botonazo#1{\fboxsep=0.8mm\fontsize{6}{6}\selectfont\ovalbox{\textbf{#1}}\normalsize}
+
+
+\def\raton#1{
+\negthinspace \negthinspace
+\begin{minipage}[c][1ex][c]{1em}
+   \resizebox{!}{1em}{\includegraphics{botonazos/#1}}
+\end{minipage}
+}
+
+
+\def\interfaz#1{
+\negthinspace \negthinspace
+\begin{minipage}[c][1ex][c]{1em}
+   \resizebox{!}{1em}{\linethickness{0.3mm} \frame{\includegraphics{botonazos/#1}}}
+\end{minipage}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%% Insercion de teclazos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejemplo: \teclazo{Ctrl} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\teclazo#1{
+    \negthinspace 
+    \fontsize{9}{6}\selectfont \ovalbox{\texttt{\textbf{#1}}} \normalsize
+    \negthinspace 
+}
+
+%% Imagen en el margen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejemplo: \imagenmargen{path}{label}{caption} %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\imagenmargen#1#2#3{
+    \marginparsep=1cm
+    \captionsetup{margin=0pt,font=footnotesize,labelfont=bf}
+    \marginparwidth=4cm
+    \marginpar{ 
+        \resizebox{\marginparwidth}{!}{\includegraphics{#1}}
+    }
+    \marginpar{
+        \vspace{0.2cm}
+        \figcaption{#3}\label{#2}
+    }
+}
+
+%% Nota en el margen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Ejemplo: \notamargen{Texto} %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\def\notamargen#1#2{
+    \interlineado{1.3}
+    \ifodd\thepage
+        \marginparsep=1.0cm
+    \else
+        \marginparsep=1.0cm
+    \fi 
+    \marginparwidth=4.0cm  
+    \marginpar{ 
+        \fontsize{9}{8}\selectfont
+        \fboxsep=1.5mm
+        \vspace{0.2cm} \hspace{-0.08cm} \fbox{#1} \vspace{0.2cm} \\
+        \fontsize{8}{7.5}
+        \selectfont #2
+    }
+    \marginparwidth=2.5cm
+    \normalsize
+    \interlineado{1.0}
+}
+
+%% Bloque llamativo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \importante{tipo}{Texto} % tipo = warning | info | question
+
+\def\importante#1#2{
+    \vspace{3mm}
+    \small    
+    \fboxrule=0.5pt
+    \fboxsep=5mm
+    \par\noindent\fcolorbox{grisoscuro}{grisclaro}{\parbox{1.3cm}{\resizebox{1cm}{!}{\includegraphics{./img/iconos/#1.png}}}\parbox{0.81\hsize}{#2}}
+    \vspace{3mm}
+    \fboxsep=1.5mm
+    \normalsize
+}
+
+%% Insercion de imagen como figura %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \imagenhere{nombreFichero}{Ancho}{Descripcion}{Identificador}
+
+\def\imagenhere#1#2#3#4{
+  \begin{figure}[h]
+    \begin{center}
+%     \resizebox{#2\textwidth}{!}{\includegraphics{#1}}
+      \resizebox{#2}{!}{\includegraphics{#1}}
+      \ifthenelse{\equal{#3}{}}{}{\caption {#3}}
+      \label{#4}
+    \end{center}
+  \end{figure}
+}
+
+%% Letra capital %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \capital{letra}
+
+\def\capital#1{
+    \lettrine[lines=3, lhang=0.00, loversize=0.04]{#1}{}  
+}
+
+%% Insercion de citas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \cita{frase}{autor}
+
+\def\cita#1#2{
+    \vspace{0.2cm}
+    \begin{quote}
+        #1
+        \begin{flushright}
+            {\it #2}
+        \end{flushright}
+    \end{quote}
+    \normalsize
+}
+
+%% Inserción de código fuente %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \code{lenguaje}{numero_primera_linea}{caption}{archivo_fuente}
+
+\def\code#1#2#3#4{
+  \lstinputlisting[language=#1, firstnumber=#2, caption=#3]{#4}
+}
+
+%% Cambiar el interlineado %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \interlineado{factor} % factor 1.0 es el normal, 2.0 doble...
+
+\newcommand{\interlineado}[1]{
+    \renewcommand{\baselinestretch}{#1}  % -- Cambiamos interlineado
+	 \large\normalsize % ---------------------- Para que cambie de verdad
+}
+
+%% Imagen de ancho total %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: \imagenanchototal{path}{caption}{label}
+
+\def\imagenanchototal#1#2#3{
+  \begin{figure}[h]
+    \ifodd\thepage
+      \hspace{-5.2cm}
+    \else
+      \hspace{-0.1cm}
+    \fi 
+    \begin{minipage}{17.1cm}
+      \centering
+      \includegraphics[width=\textwidth]{#1}
+      \ifthenelse{\equal{#2}{}}{}{\caption{#2}}
+      \ifthenelse{\equal{#3}{}}{}{\label{#3}}
+    \end{minipage}
+  \end{figure}
+}
+
+\def\imagenanchototalpar#1#2#3{
+  \begin{figure}[h]
+    \hspace{-5.2cm}
+    \begin{minipage}{17.1cm}
+      \centering
+      \includegraphics[width=\textwidth]{#1}
+      \ifthenelse{\equal{#2}{}}{}{\caption{#2}}
+      \ifthenelse{\equal{#3}{}}{}{\label{#3}}
+    \end{minipage}
+  \end{figure}
+}
+
+\def\imagenanchototalimpar#1#2#3{
+  \begin{figure}[h]
+    \hspace{-0.1cm}
+    \begin{minipage}{17.1cm}
+      \centering
+      \includegraphics[width=\textwidth]{#1}
+      \ifthenelse{\equal{#2}{}}{}{\caption{#2}}
+      \ifthenelse{\equal{#3}{}}{}{\label{#3}}
+    \end{minipage}
+  \end{figure}
+}
+
+
+%%%%
+
+
+
+%% Grafos DOT empotrados %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Uso: FALTA POR HACER UN ENTORNO PARA ESTO. A CONTINUACION PUEDES VER
+%% UN EJEMPLO DE USO:
+
+%% \begin{figure}[h]
+%% \begin{center}
+%%   \begin{dot2tex}[dot,scale=1,mathmode]
+%%     digraph G {
+%%       rankdir=TB;
+%%       d2ttikzedgelabels = false;
+%%       node [style="state"];
+%%       edge [lblstyle="auto"];
+%%       X [label = "\pi"];
+%%       A -> B [label = "\displaystyle\frac{x_2}{\sum y_i}"];
+%%       A -> D [label = "7"];
+%%       A -> X;
+%%       X -> D;
+%%     }
+%%   \end{dot2tex}
+%% \caption{Grafo empotrado}
+%% \label{grafo01}
+%% \end{center}
+%% \end{figure}
+
+
+
+
+
+%% Más cosillas
+
+
+
+
+%% % ------------------ Macro para aniadir un cuadro sombreado ---------------------
+%% %       Uso: \begin{sombreado}{Texto...}\end{sombreado} 
+%% % ------------------------------------------------------------------------------
+
+%% \newenvironment{sombreado}[1]%
+%% {%\vspace{2mm}
+%%  \par\noindent
+%%  \fboxrule=1pt
+%%  \fboxsep=2mm
+%%  \addtolength{\hsize}{-2\fboxsep} 
+%%  \addtolength{\hsize}{-2\fboxrule}
+%%  \fcolorbox{black}{gris}{\parbox{\hsize}{#1}}
+%%  %\vspace{2mm}
+%%  }{}
+
+
+
+%% % ------------------ Macro para insertar una subimagen con marco -------------------
+%% %       Uso: \subimagenmarco{nombreFichero}{Ancho}{Etiqueta}{Identificador}
+%% % -----------------------------------------------------------------------------
+%% \def\subimagenmarco#1#2#3#4{
+%%  \subfigure[#3]{
+%%    \resizebox{#2\textwidth}{!}{\linethickness{0.3mm} \frame{\includegraphics{#1}}}
+%%    \label{'#4'}
+%%  }	
+%% }
+
+
+%% \newenvironment{intro}[1]%
+%% {\vspace{-15mm}
+%%  \small
+%%  \par\noindent
+%%  \fboxrule=1pt
+%%  \fboxsep=4mm
+%%  \fcolorbox{white}{white}{\parbox{0.92\hsize}{\textcolor{grisoscuro}{$\triangle$ \textit{#1}}}}
+%%  \vspace{5mm}
+%%  \fboxsep=1.5mm
+%%  \normalsize
+%%  }{}
+
+%% % ------------------ Macro para insertar una imagen cedida por alguien --------
+%% %       Uso: \imagen{nombreFichero}{Ancho}{Etiqueta}{Identificador}
+%% % -----------------------------------------------------------------------------
+%% \def\imagenCopyright#1#2#3#4#5{
+%%  \begin{figure}[here]
+%%  \begin{center}
+%%    \resizebox{#2\textwidth}{!}{\includegraphics{#1}}
+%%  \fontsize{7}{7}\selectfont
+%%  \begin{flushright}
+%% 	 \vspace{-1mm}
+%% 	 \textsf{#5}
+%%  \end{flushright}
+%%  \normalsize 
+%%  \vspace{-3mm}
+%%  \caption {#3}
+%%  \label{'#4'}
+%%  \end{center}
+%%  \end{figure}
+%% }
+
+
+%% % ------------------ Macro para insertar una imagen con marco
+%% %       Uso: \imagenmarco{nombreFichero}{Ancho}{Etiqueta}{Identificador}
+%% % -----------------------------------------------------------------------------
+%% \def\imagenmarco#1#2#3#4{
+%%  \begin{figure}[here]
+%%  \begin{center}
+%%    \resizebox{#2\textwidth}{!}{\linethickness{0.3mm} \frame{\includegraphics{#1}}}
+%%  \ifthenelse{\equal{#3}{}}{}{\caption {#3}}
+%%  \label{'#4'}
+%%  \end{center}
+%%  \end{figure}
+%% }
+
+%% \def\imagenanchototal#1#2#3#4#5{
+%%   \captionsetup{margin=4pt,font=small,labelfont=bf}
+%%  \begin{figure}
+%%  \ifthenelse{\equal{#5}{par}}{\hspace{0cm}}{\hspace{-5.3cm}} 
+%%  \resizebox{#2}{!}{\includegraphics{#1}}
+%%  \ifthenelse{\equal{#3}{}}{}{\caption {#3}}
+%%  \label{#4}
+%%  \end{figure}
+%% }
+
+%% %% ------------------ Macro para insertar una imagen ---------------------------
+%% %       Uso: \imagen{nombreFichero}{Ancho}{Etiqueta}{Identificador}
+%% % -----------------------------------------------------------------------------
+%% \def\imagen#1#2#3#4{
+%%   \captionsetup{margin=4pt,font=small,labelfont=bf}
+%%  \begin{figure}
+%%  \begin{center}
+%%    \resizebox{#2\textwidth}{!}{\includegraphics{#1}}
+%%  \ifthenelse{\equal{#3}{}}{}{\caption {#3}}
+%%  \label{#4}
+%%  \end{center}
+%%  \end{figure}
+%% }
+
+%% % ------------------ Macro para aniadir codigo fuente --------------------
+%% %       Uso: \begin{VerbatimEnvironment}[label=\normalsize\textrm{\textbf{titulo}}]
+%% % -----------------------------------------------------------------------
+
+%% \DefineVerbatimEnvironment
+%%  {MiVerbatim}{Verbatim}
+%%  {frame=single, framerule=.3mm, framesep=4mm, samepage=false,
+%%    rulecolor=\color{gris}, baselinestretch=.7, fontsize=\small, 
+%%    numbers=left, numbersep=2mm, xleftmargin=2mm, xrightmargin=2mm}
+ 
+%% %%%%%%%%%%%%%%%%%%%%% IMAGEN EN EL MARGEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% \def\slide#1{
+%%   \ifodd\thepage \marginparsep=2.5cm \else \marginparsep=1cm \fi 
+%%   \marginpar{ 
+%%     \resizebox{1.6\marginparwidth}{!}{\linethickness{0.3mm} \frame{\includegraphics{#1}}}
+%%   }
+%% }

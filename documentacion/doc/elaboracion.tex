@@ -1,0 +1,936 @@
+
+\section{Arquitectura general}
+
+La arquitectura general del sistema se muestra en el diagrama de despliegue de la figura \ref{despliegue}.
+
+\imagenanchototal{./diagramas/Despliegue.png}{Diagrama de despliegue del sistema}{despliegue}
+
+\section{Casos de uso}
+
+Partiendo de los requisitos funcionales especificados en el capítulo anterior, planteamos los siguientes casos de uso:
+
+\notamargen{Diagrama de casos de uso}{El diagrama completo de casos de uso puede verse en el anexo \ref{casosuso}}
+
+\begin{enumerate}[{\bf UC-1}]
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Identificación.
+  \item {\it Descripción}: Un visitante inicia su sesión como cliente o administrador.
+  \item {\it Precondiciones}:
+    \begin{itemize}
+    \item El usuario debe estar registrado.
+    \end{itemize}
+  \item {\it Actores}: Visitante, Administrador.  
+  
+  
+  \item {\it Flujo normal}: autenticación exitosa
+    \begin{itemize}
+    \item Secuencia de eventos:
+      \begin{enumerate}[1. ]
+      \item El usuario introduce su nombre de usuario y contraseña en el formulario web.
+      \item La interfaz envía los datos al módulo de identificación.
+      \item El módulo gestor de usuarios solicita los datos completos del usuario al módulo de persistencia.
+      \item El módulo de persistencia devuelve la información del usuario al módulo gestor de usuarios.
+      \item El módulo gestor de usuarios comprueba los datos y le entrega a la interfaz la información del usuario para que esta cambie acorde con él.
+      \item La web cambia para dar la bienvenida al usuario y mostrarle las opciones propias de ese usuario (cliente autenticado o administrador).
+      \end{enumerate}
+    
+    \item {\it Postcondiciones}: El visitante pasa a ser un cliente identificado o administrador.  La web cambia para dar la bienvenida al usuario y mostrarle las opciones propias de ese usuario (cliente autenticado o administrador).
+    \end{itemize}
+
+    \imagenanchototal{diagramas/diagramassecuencia/uc-login.png}{Caso de Uso Identificación Escenario 1}{casousologinescenario1}
+    
+  \item {\it Flujo alternativo 1}: autenticación errónea
+  \begin{itemize}
+    \item Secuencia de eventos:
+      
+  
+    \begin{enumerate}[1. ]
+    \item El usuario introduce su nombre de usuario y contraseña en el formulario web.
+    \item La interfaz envía los datos al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios solicita los datos completos del usuario al módulo de persistencia.
+    \item El módulo de persistencia devuelve la información del usuario al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios comprueba los datos y, como no son correctos porque la combinación \textit{login}-\textit{password} no existe, lanza un error a la capa de presentación.
+    \item La web muestra un error de autenticación.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La web muestra un error de autenticación. 
+\end{itemize}
+
+    \imagenanchototalimxpar{diagramas/diagramassecuencia/uc-login-alternativo1.png}{Caso de Uso Identificación Escenario Alternativo}{casousologinescenarioalternativo}
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Registrarse.
+  \item {\it Descripción}: Un visitante crea una cuenta en el sistema para poder hacer compras, tener un historial de sus pedidos, mantener una lista de productos favoritos, etc.
+  \item {\it Actores}: Visitante, Sistema.
+  \item {\it Precondiciones}: ninguna
+
+
+  \item {\it Flujo normal}: registro exitoso.
+    \begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El usuario introduce los datos mínimos de registro (nombre de usuario, email y contraseña) en la web.
+    \item La interfaz gráfica web envía los datos al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios solicita la creación de la cuenta correspondiente al módulo de persistencia.
+    \item El módulo de persistencia devuelve una confirmación de creación de la cuenta.
+    \item El módulo gestor de usuarios devuelve la confirmación a la interfaz web.
+    \item La interfaz web muestra la confirmación de que la cuenta se ha creado satisfactoriamente.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz web muestra la confirmación de que la cuenta se ha creado satisfactoriamente. El visitante pasa a ser un cliente identificado.
+    \end{itemize}
+    \imagenanchototalimpar{diagramas/diagramassecuencia/uc-registro.png}{Caso de Uso Registro Escenario 1}{casousoregistroescenario1}
+
+  \item {\it Flujo alternativo 1}: registro fallido (nombre de usuario existente).
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+    \item El usuario introduce los datos mínimos de registro (nombre de usuario, email y contraseña) en la web.
+    \item La interfaz gráfica web envía los datos al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios solicita la creación de la cuenta correspondiente al módulo de persistencia.
+    \item El módulo de persistencia devuelve un error indicando que el nombre de usuario ya existe.
+    \item El módulo gestor de usarios devuelve el error a la interfaz web.
+    \item La interfaz web muestra el error al usuario, solicitándole un nombre de usuario diferente.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz web muestra el error al usuario, solicitándole un nombre de usuario diferente. \end{itemize}
+
+    \imagenanchototal{diagramas/diagramassecuencia/uc-registro-alternativo1.png}{Caso de Uso Registro Escenario Alternativo}{casousoregistroescenarioalternativo}
+
+  \item {\it Flujo alternativo 2}: registro fallido (email ya asignado a una cuenta existente).
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+    \item El usuario introduce los datos mínimos de registro (nombre de usuario, email y contraseña) en la web.
+    \item La interfaz gráfica web envía los datos al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios solicita la creación de la cuenta correspondiente al módulo de persistencia.
+    \item El módulo de persistencia devuelve un error indicando que el email indicado ya está asociado a una cuenta de usuario.
+    \item El módulo gestor de usuarios devuelve el error a la interfaz web.
+    \item La interfaz web muestra el error al usuario, recomendándole que recupere su contraseña si no la recuerda.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz web muestra el error al usuario, recomendándole que recupere su contraseña si no la recuerda. 
+\end{itemize}
+
+    \imagenanchototal{diagramas/diagramassecuencia/uc-registro-alternativo2.png}{Caso de Uso Registro Escenario Alternativo 2}{casousoregistroescenarioalternativo2}
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Obtener Productos.
+  \item {\it Descripción}: El sistema obtiene los productos que posee cuando el usuario entra a la web.
+  \item {\it Precondiciones}: Ninguna
+  \item {\it Actores}: Sistema de gestión de base de datos
+
+
+  \item {\it Flujo normal}: Muestra de productos en stock
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El sistema pide al módulo gestor de productos los datos de los productos en stock.
+    \item El módulo gestor de productos pide al módulo de persistencia de productos que tiene en stock.
+    \item El módulo de persistencia devuelve una lista de productos al módulo gestor de productos.
+    \item El módulo gestor de productos devuelve una lista de productos al sistema.
+    \item El sistema le comunica a la interfaz gráfica la lista de productos que debe mostrar.
+    \item La interfaz gráfica se reacarga para mostrar la información de los productos.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz gráfica se reacarga para mostrar la información de los productos.
+\end{itemize}
+        \imagenanchototalimpar{diagramas/diagramassecuencia/uc-obtener.png}{Caso de Uso Obtener Producto Escenario}{casousoobtenerescenario}
+
+  \item {\it Flujo alternativo 1}: No hay productos que mostrar
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+    \item El sistema pide al módulo gestor de productos los datos de los productos en stock.
+    \item El módulo gestor de productos pide al módulo de persistencia de productos que tiene en stock.
+    \item El módulo de persistencia devuelve una lista de productos vacía al módulo gestor de productos.
+    \item El módulo gestor de productos devuelve una lista de productos vacía al sistema.
+    \item El sistema le comunica a la interfaz gráfica que debe mostrar ``No disponemos de productos en stock.''.
+    \item La interfaz gráfica se reacarga para mostrar la información.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz gráfica se reacarga para mostrar ``No disponemos de productos en stock.''.
+  \end{itemize}
+
+        \imagenanchototalpar{diagramas/diagramassecuencia/uc-obtener-alternativo1.png}{Caso de Uso Obtener Productos Escenario Alternativo}{casousoobteneralternativo}
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Modificar cuenta
+  \item {\it Descripción}: Un cliente identificado modifica los datos personales de su cuenta.
+  \item {\it Precondiciones}: La web muestra al cliente el mensaje de cambio afirmativo.
+    \begin{itemize}
+    \item Debe estar identificado como cliente.
+    \end{itemize}
+  \item {\it Actores}: Cliente identificado.
+
+
+  \item {\it Flujo normal}: cambio de datos existoso.
+    \begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El cliente accede a la intefaz de gestión de datos personales.
+    \item	El cliente realiza los cambios deseados e introduce su contraseña actual.
+    \item La interfaz envía los nuevos datos al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios envía los datos al módulo de persistencia.
+    \item El módulo de persistencia sobreescribe los antiguos datos del cliente con los nuevos y devuelve la confirmación al gestor.
+    \item El módulo de gestor de usuarios manda un mensaje de confirmación a la interfaz.
+    \item La web muestra al cliente el mensaje de cambio afirmativo.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La web se recarga y muestra el mensaje de cambio realizado correctamente.
+\end{itemize}
+
+    \imagenanchototal{diagramas/diagramassecuencia/uc-modificar_cuenta.png}{Caso de Uso Registro Modificar Cuenta Escenario Normal}{casousomodificar}
+
+  \item {\it Flujo alternativo 1}: Cambio rechazado.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+	\item El cliente accede a la intefaz de gestión de datos personales.
+    \item	El cliente realiza los cambios deseados e introduce su contraseña actual.
+    \item El módulo gestor de usuarios envía los datos al módulo de persistencia.
+    \item El módulo de persistencia detecta un error en los cambios realizados y devuelve un error al gestor.
+    \item El módulo gestor de usuario manda un mensaje de error a la interfaz.
+    \item La web muestra un error en los cambios.
+    \end{enumerate}
+  \item {\it Postcondiciones}:  La web muestra un mensaje de error en los cambios.
+\end{itemize}
+    
+    \imagenanchototalimpar{diagramas/diagramassecuencia/uc-modificar_cuenta-alternativo1.png}{Caso de Uso Modificar Cuenta Escenario Alternativo}{casousomodificarescenarioalternativo}
+
+   \item {\it Flujo alternativo 2}: Darse de baja.
+\begin{itemize}
+\item Secuencia de eventos:
+
+   
+    \begin{enumerate}[1. ]
+	\item El cliente accede a la intefaz de gestión de datos personales.
+    \item	El cliente selecciona la opción de darse de baja e introduce su contraseña.
+    \item La interfaz envía la petición al módulo gestor de usuarios.
+    \item El módulo gestor de usuarios deslogea y envía una orden al módulo de persistencia para que destruya todos los datos del cliente.
+    \item La web muestra su página principal.
+    \end{enumerate}
+ \item {\it Postcondiciones}: La web muestra su página principal. El cliente identificado pasa a ser un visitante.
+\end{itemize}
+
+    \imagenanchototalpar{diagramas/diagramassecuencia/uc-modificar_cuenta-alternativo1.png}{Caso de Uso Modificar Cuenta Escenario Alternativo 2}{casousomodificarescenarioalternativo2}
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Ver Carro
+  \item {\it Descripción}: Un cliente identificado o visitante comprueba los productos que tiene en el pedido que está realizando.
+  \item {\it Precondiciones}: Ninguna
+
+
+  \item {\it Actores}: Cliente identificado, visitante.
+  \item {\it Flujo normal}: mostrar productos del carro.
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El cliente o visitante accede a la intefaz del carro.
+    \item La web muestra los productos que tiene el carro, el número de artículos y su precio.
+      
+
+
+    \end{enumerate}
+  \item {\it Postcondiciones}: La web muestra los productos que tiene el carro, el número de artículos y su precio.
+\end{itemize}
+
+      \imagenanchototal{diagramas/diagramassecuencia/uc-ver_carro.png}{Caso de Uso Ver Carro Escenario Normal}{casousovercarroescenarionormal}
+
+  \item {\it Flujo alternativo 1}: Quitar producto.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+	\item El cliente o visitante accede a la intefaz del carro.
+    \item La web muestra los productos que tiene el carro, el número de artículos y su precio.
+    \item El cliente o visitante elimina un producto.
+    \item La interfaz muestra los productos restantes que contiene el carro.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La interfaz muestra los productos restantes que contiene el carro.
+\end{itemize}
+    
+    \imagenanchototalimpar{diagramas/diagramassecuencia/uc-ver_carro-alternativo1.png}{Caso de Uso Ver Carro Escenario Alternativo}{casousovercarroescenarioalternativo}    
+
+   \item {\it Flujo alternativo 2}: Añadir al carro.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+	\item El cliente o visitante accede a la intefaz del carro.
+    \item La web muestra los productos que tiene el carro, el número de artículos de ese producto y su precio.
+    \item El cliente o visitante añade un producto que ya tenga en el carro incrementando el número de artículos.
+    \item  La interfaz actualiza el carro.
+    \end{enumerate}
+   \item {\it Postcondiciones}: La interfaz muestra los productos que contiene el carro más las unidades del nuevo producto añadido.
+\end{itemize}
+
+    \imagenanchototalpar{diagramas/diagramassecuencia/uc-ver_carro-alternativo2.png}{Caso de Uso Ver Carro Escenario Alternativo2}{casousovercarroescenarioalternativo2}    
+
+     \item {\it Flujo alternativo 3}: Finalizar compra.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+	\item El cliente o visitante accede a la intefaz del carro.
+    \item La web muestra los productos que tiene el carro, el número de artículos de ese producto y su precio.
+    \item El cliente o visitante selecciona la opción de finalizar compra.
+    \item La web cambia y muestra la interfaz de finalización de compra.
+    \end{enumerate}
+     \item {\it Postcondiciones}: La web cambia y muestra la interfaz de finalización de compra.
+\end{itemize}
+
+    \imagenanchototalimpar{diagramas/diagramassecuencia/uc-ver_carro-alternativo3.png}{Caso de Uso Ver Carro Escenario Alternativo3}{casousovercarroescenarioalternativo3}    
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Añadir producto.
+  \item {\it Descripción}: Los administradores pueden dar de alta un artículo.
+  \item {\it Precondiciones}: La web se refresca indicando que el producto se ha añadido correctamente.
+    \begin{itemize}
+    \item El administrador está identificado como tal.
+    \end{itemize}
+
+  \item {\it Actores}: Administrador.
+
+  \item {\it Flujo normal}: articulo nuevo añadido correctamente.
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El administrador rellena los datos y stock del producto.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo de persistencia actualiza la BD con el nuevo producto.
+    \item El módulo gestor de productos devuelve el mensaje de éxito a la interfaz.
+    \item La web se refresca indicando que el producto se ha añadido correctamente.
+
+    \end{enumerate}
+
+  \item {\it Postcondiciones}: La web se refresca mostrando un mensaje de que el producto se ha añadido correctamente.
+\end{itemize}
+
+  \imagenanchototalpar{diagramas/diagramassecuencia/uc-anadir_Producto.png}{Caso de Añadir Producto Escenario Normal}{casousoanadirproductoescenarionormal}    
+
+  \item {\it Flujo alternativo 1}: El articulo a añadir ya existe.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+    \item El administrador rellena los datos y stock del producto.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo gestor de productos comprueba que el articulo ya existe.
+    \item El módulo gestor de productos devuelve el mensaje de error a la interfaz.
+    \item La web se refresca indicando que el producto ya existía, y por lo tanto sólo puede modificarlo  o borrarlo.
+
+    \end{enumerate}
+    \item {\it Postcondiciones}: La web se refresca indicando que el producto ya existe.
+\end{itemize}
+
+  \imagenanchototal{diagramas/diagramassecuencia/uc-anadir_Producto-alternativo1.png}{Caso de Añadir Producto Escenario Alternativo}{casousoanadirproductoescenarioalternativo}    
+
+  \item {\it Flujo alternativo 2}: El articulo a añadir se intenta añadir con cero (o menos) de stock.
+\begin{itemize}
+\item Secuencia de eventos:
+
+    \begin{enumerate}[1. ]
+    \item El administrador rellena los datos e indica cero en el stock del producto.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item Módulo gestor de productos comprueba que el stock no es mayor que cero, y envía el error a la interfaz.
+    \item La web se refresca indicando que el producto no puede añadirse con un stock de cero o menos.
+
+
+    \end{enumerate}
+    \item {\it Postcondiciones}: La web se refresca indicando que el producto no puede añadirse con un stock de cero o menos.
+\end{itemize}
+    \imagenanchototalpar{diagramas/diagramassecuencia/uc-anadir_Producto-alternativo2.png}{Caso de Añadir Producto Escenario Alternativo 2}{casousoanadirproductoescenarioalternativo2}    
+
+  \end{itemize}
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Borrar producto.
+  \item {\it Descripción}: Los administradores pueden dar de baja un artículo.
+  \item {\it Precondiciones}: 
+    \begin{itemize}
+    \item El administrador está identificado como tal, y el articulo existe en el sistema.
+    \end{itemize}
+  
+  \item {\it Actores}: Administrador.
+
+  \item {\it Flujo normal}: Artículo existente borrado correctamente.
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El administrador introduce en la interfaz el artículo a buscar.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo de persistencia le devuelve al gestor de productos los datos el producto buscado.
+    \item El módulo gestor de productos devuelve los datos del producto a la interfaz.
+    \item La web se refresca mostrando el producto buscado.
+    \item El administrador pulsa el botón de borrar el producto.
+    \item La interfaz envía la petición de borrado al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el módulo de persistencia.
+    \item Módulo de persistencia borra del sistema ese producto (y su stock), y devuelve el exito de la acción al gestor de productos.
+    \item El módulo gestor de productos devuelve los datos de éxito de borrado a la interfaz.
+    \item La web se refresca mostrando que el producto se ha borrado.
+    \end{enumerate}
+\item {\it Postcondiciones}: La web se refresca mostrando que el producto se ha borrado.
+\end{itemize}
+
+    \imagenanchototalimpar{diagramas/diagramassecuencia/uc-borrar_articulo.png}{Caso de Borrar Artículo Escenario Normal}{casousoborrararticuloescenarionormal}    
+
+  \item {\it Flujo Alternativo}: Artículo no existente.
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El administrador introduce en la interfaz el artículo a buscar.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo de persistencia le devuelve al gestor de productos la lista de productos buscados vacía.
+    \item El módulo gestor de productos devuelve la lista vacía de los datos del producto a la interfaz.
+    \item La web se refresca mostrando el mensaje ``No se ha encontrado el artículo.''
+    \end{enumerate}
+    \item {\it Postcondiciones}: La web se refresca mostrando el mensaje ``No se ha encontrado el artículo.''
+\end{itemize}
+
+    \imagenanchototalpar{diagramas/diagramassecuencia/uc-borrar_articulo-alternativo1.png}{Caso de Borrar Artículo Escenario Alternativo}{casousoborrararticuloescenarioalternativo}    
+
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item {\it Caso de uso}: Modificar producto.
+  \item {\it Descripción}: Los administradores pueden modificar un artículo.
+  \item {\it Precondiciones}: 
+    \begin{itemize}
+    \item El administrador está identificado como tal, y el articulo existe en el sistema.
+    \end{itemize}
+
+
+  \item {\it Actores}: Administrador.
+
+  \item {\it Flujo normal}: Artículo se modifica correctamente.
+\begin{itemize}
+\item Secuencia de eventos:
+    \begin{enumerate}[1. ]
+    \item El administrador introduce en la interfaz el artículo a buscar.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo de persistencia le devuelve al gestor de productos los datos el producto buscado.
+    \item El módulo gestor de productos devuelve los datos del producto a la interfaz.
+    \item La web se refresca mostrando el producto buscado.
+    \item El administrador pulsa el botón de modificar el producto.
+    \item La interfaz envía la petición de modificación al módulo gestor de productos.
+    %\item El módulo gestor de productos se comunica con el módulo de persistencia.
+    \item El módulo gestor de productos devuelve los datos del producto a la interfaz.
+    \item La web se refresca mostrando los datos  del producto de manera que se puedan editar.
+    \item El administrador cambia los campos del producto que considere oportuno (stock, nombre, categoría, descripción, etc), y pulsa el botón de aceptar cambio.
+    \item La interfaz envía los nuevos datos al módulo gestor de productos.
+    \item El módulo gestor de productos comprueba que los datos son válidos, y se comunica con el módulo de persistencia indicandole los nuevos datos.
+    \item El módulo gestor de persistencia comunica al gestor de productos que la acción se ha realizado con éxito.
+    \item El módulo gestor de productos devuelve a la interfaz que los datos ha sido modificados con éxito.
+    \item La web se refresca mostrando que el producto ha sido modificado.
+    \end{enumerate}
+  \item {\it Postcondiciones}: La web se refresca mostrando que el producto ha sido modificado.
+\end{itemize}
+
+  \item {\it Flujo alternativo}: Artículo se modifica incorrectamente.
+
+\begin{itemize}
+\item Secuencia de eventos:   
+
+    \begin{enumerate}[1. ]
+    \item El administrador introduce en la interfaz el artículo a buscar.
+    \item La interfaz envía los datos al módulo gestor de productos.
+    \item El módulo gestor de productos se comunica con el modulo de persistencia.
+    \item Módulo de persistencia le devuelve al gestor de productos los datos el producto buscado.
+    \item El módulo gestor de productos devuelve los datos del producto a la interfaz.
+    \item La web se refresca mostrando el producto buscado.
+    \item El administrador pulsa el botón de modificar el producto.
+    \item La interfaz envía la petición de modificación al módulo gestor de productos.
+    %\item El módulo gestor de productos se comunica con el módulo de persistencia.
+    \item El módulo gestor de productos devuelve los datos del producto a la interfaz.
+    \item La web se refresca mostrando los datos  del producto de manera que se puedan editar.
+    \item El administrador cambia el stock a un valor menor o igual que cero (y puede que otros campos) y pulsa el botón de aceptar cambio.
+    \item La interfaz envía los nuevos datos al módulo gestor de productos.
+    \item El módulo gestor de productos comprueba que los datos no son válidos (el stock es menor o igual a cero).
+    \item El módulo gestor de productos devuelve a la interfaz que los datos no han sido modificados.
+    \item La web se refresca mostrando que el producto no ha sido modificado.
+    \end{enumerate}
+ \item {\it Postcondiciones}: La web se refresca mostrando que el producto no ha sido modificado.
+  \end{itemize}
+\end{itemize}
+
+\end{enumerate}
+
+
+
+\section{Casos de Pruebas}
+Para los diferentes casos de uso especificados se definirán casos de prueba acordes.
+
+% Obtener Productos
+\begin{enumerate}
+\item {\it Identificador:} Obtener Productos.EscenarioNormal.Casoprueba1
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 40, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item mostrar\_productos()
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 4 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas.
+        \item Hay 40 pantalones.
+        \item Hay 20 camisas.
+        \item Hay 10 gorras.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\begin{enumerate} 
+\item {\it Identificador:} Obtener Productos.EscenarioAlternativo.CasoPrueba2
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item No hay productos en la base de datos.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item mostrar\_productos()
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Mostrar: No existen productos en stock.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+
+%Modificar Cuenta.
+
+\begin{enumerate}
+	\item {\it Identificador:} Modificar Cuenta.EscenarioNormal.CasoPrueba1
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item Todos los datos correctos
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item modificarDatos(nombre,apellido,nick,email,password,telefono)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+		       			 \item Mensaje de de confirmación: Datos modificados correctamente.
+		       			 \item Cambios realizados en el sistema.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Modificar Cuenta.EscenarioAlternativo.CasoPrueba2
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item Correo electrónico no valido (Fallo en el prototipo de un correo. Es decir, falta la \@, el dominio,\ldots)
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item modificarDatos(nombre,apellido,nick,email,password,telefono)
+				\begin{itemize}
+					 \item Resultado esperado:
+					 \begin{itemize}
+		       			 \item Mensaje de error: Correo electrónico inválido.
+					 \end{itemize}
+				\end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+
+\begin{enumerate}
+	\item {\it Identificador:} Modificar Cuenta.EscenarioAlternativo.CasoPrueba3
+	\item {\it Situaciones iniciales:} 
+    		\begin{itemize}
+    			\item El cliente intenta cambiar su nick a uno ya existente.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item modificarDatos(nombre,apellido,nick,email,password,telefono)
+				\begin{itemize}
+					 \item Resultado esperado:
+					 \begin{itemize}
+		       			 \item Mensaje de error: El nombre de usuario ya existe. Escoja otro.
+					 \end{itemize}
+				\end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Modificar Cuenta.EscenarioAlternativo.CasoPrueba4
+	\item {\it Situaciones iniciales:} 
+    		\begin{itemize}
+    			\item Campos obligatorios vacios (El cliente no rellena campos obligatorios)
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item modificarDatos(nombre,apellido,nick,email,password,telefono)
+				\begin{itemize}
+					 \item Resultado esperado:
+					 \begin{itemize}
+		       			 \item Mensaje de error: Faltan campos por especificar.
+					 \end{itemize}
+				\end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+
+\begin{enumerate}
+	\item {\it Identificador:} Modificar Cuenta.EscenarioNormal.CasoPrueba5
+	\item {\it Situaciones iniciales:} 
+    		\begin{itemize}
+    			\item El usuario se da de baja.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item darseBaja()
+				\begin{itemize}
+					 \item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Se deslogea al cliente.
+					 	 \item Se destruyen los datos del cliente.
+		       			 \item Se muestra la página principal.
+					 \end{itemize}
+				\end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+%Ver Carro
+
+\begin{enumerate}
+	\item {\it Identificador:} Ver Carro.EscenarioNormal.CasoPrueba1
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item No hay artículos en el carro
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item verCarro()
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+		       			 \item Mostrar el carro vacío.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Ver Carro.EscenarioNormal.CasoPrueba2
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item Hay 3 productos en el carro. El producto 001, botas a 70 euros y hay 1 par de ellos. El producto 002, pantalones a 30 euros y hay 2. El producto 003, camisas a 20 euros y hay 1.
+    			\item Hay 3 productos (4 artículos) en el carro
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item verCarro()
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Hay 3 productos: 
+		       			 \begin{itemize}
+				   			\item Hay 1 par de botas, precio 70 euros.
+				  			\item Hay 2 pantalones, precio 60 euros.
+				  			\item Hay 1 camisa, precio 20 euros.
+				   		\end{itemize}
+				   		\item Precio total: 150 euros.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+
+%Identificacion
+
+\begin{enumerate}
+	\item {\it Identificador:} Identificacion.EscenarioNormal.CasoPrueba1
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante se logea correctamente como cliente.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item login(nick,password)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje de confirmación.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Identificacion.EscenarioNormal.CasoPrueba2
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante se logea correctamente como administrador.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item login(nick,password)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje de confirmación.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+
+\begin{enumerate}
+	\item {\it Identificador:} Identificacion.EscenarioAlternativo.CasoPrueba3
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante introduce un nombre de usuario inexistente.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item login(nick,password)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje de error: Usuario o contraseña incorrectos.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Identificacion.EscenarioAlternativo.CasoPrueba4
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante introduce una contraseña incorrecta.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item login(nick,password)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje de error: El usuario o contraseña incorrectos.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+%Registro
+
+\begin{enumerate}
+	\item {\it Identificador:} Registro.EscenarioNormal.CasoPrueba1
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante introduce al menos los datos mínimos correctamente.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item registrar(nick,password,email)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje de registro aceptado.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Registro.EscenarioAlternativo.CasoPrueba2
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante introduce un nombre de usuario ya existente.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item registrar(nick,password,email)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje error: Nombre de usuario ya existente.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+	\item {\it Identificador:} Registro.EscenarioAlternativo.CasoPrueba2
+	\item {\it Situaciones iniciales:}
+    		\begin{itemize}
+    			\item El visitante introduce un correo electrónico que ya esta asociado a una cuenta.
+		\end{itemize}
+	\item {\it Mensajes:}
+		\begin{itemize}
+			\item registrar(nick,password,email)
+				 \begin{itemize}
+					 	\item Resultado esperado:
+					 \begin{itemize}
+					 	 \item Mostrar mensaje error: Correo electrónico ya asociado a otra cuenta.
+					 \end{itemize}
+				 \end{itemize}
+		\end{itemize}
+\end{enumerate}
+
+
+% Añadir Producto
+
+\begin{enumerate}
+\item {\it Identificador:} AñadirProducto.EscenarioNormal.CasoPrueba1
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 20 pares, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item añadirProducto(005,20,15,``Camisetas de platero y tú")
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 5 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas a 70 euros.
+        \item Hay 20 pares de pantalones a 50 euros.
+        \item Hay 20 camisas a 30 euros.
+        \item Hay 10 gorras a 10 euros.
+        \item Hay 20 camisetas de platero y tú 15 euros.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+
+
+\end{enumerate}
+
+\begin{enumerate}
+\item {\it Identificador:} AñadirProducto.EscenarioAlternativo.CasoPrueba2
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 20 pares, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item añadirProducto(003,20,15,``camisas")
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 4 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas a 70 euros.
+        \item Hay 20 pares de pantalones a 50 euros.
+        \item Hay 20 camisas a 30 euros.
+        \item Hay 10 gorras a 10 euros.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+
+
+\end{enumerate}
+
+\begin{enumerate}
+\item {\it Identificador:} AñadirProducto.EscenarioAlternativo.CasoPrueba3
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 20 pares, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item añadirProducto(005,0,15,``camisas de platero y tú")
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 4 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas a 70 euros.
+        \item Hay 20 pares de pantalones a 50 euros.
+        \item Hay 20 camisas a 30 euros.
+        \item Hay 10 gorras a 10 euros.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+
+
+
+\end{enumerate}
+
+%Borrar Producto
+
+\begin{enumerate}
+\item {\it Identificador:} BorrarProducto.EscenarioNormal.CasoPrueba1
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 20 pares, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item BorrarProducto(004)
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 3 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas a 70 euros.
+        \item Hay 20 pares de pantalones a 50 euros.
+        \item Hay 20 camisas a 30 euros.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\begin{enumerate}
+\item {\it Identificador:} BorrarProducto.EscenarioAlternativo.CasoPrueba2
+\item {\it Situaciones iniciales:}
+  \begin{itemize}
+  \item Hay 4 productos en la base de datos el producto 001 botas a 70 euros y hay 50 pares de unidades, el producto 002 pantalones a 30 euros y hay 20 pares, el producto 003 camisas a 20 euros y hay 200 y el producto 004 gorras a 10 euros y hay 10.
+  \end{itemize}
+\item {\it Mensajes:}
+  \begin{itemize}
+  \item añadirProducto(005)
+    \begin{itemize}
+    \item {\it Resultado esperado:}
+      \begin{itemize}
+      \item Hay 4 productos.
+        \begin{itemize}
+        \item Hay 50 pares de botas a 70 euros.
+        \item Hay 20 pares de pantalones a 50 euros.
+        \item Hay 20 camisas a 30 euros.
+        \item Hay 10 gorras a 10 euros.
+        \end{itemize}
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\section{Diagrama de clases}
+
+El diagrama completo de clases puede apreciarse en el anexo \ref{clases}.

@@ -1,0 +1,11 @@
+ #![Añadir producto (Escenario alternativo2)]
+
+Administrador:Actor
+in:Interfaz gráfica
+pro:Gestor Productos
+
+Administrador:in.Rellenar datos prod.
+in:pro.Datos prod.
+pro:pro.Comprobar datos
+pro:in.Fallo al añadr
+in:in. Actualizar contenido

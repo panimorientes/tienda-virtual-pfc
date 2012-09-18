@@ -1,0 +1,487 @@
+\section{Enunciado del problema}
+\label{enunciado}
+
+Se	  debe	  desarrollar	  una	  tienda	  virtual	  que	  permita	  la	  venta	  de	  artículos	  a	  clientes.	  
+Para	  ello,	  la	  tienda	  contará	  con	  una	  base	  de	  datos	  que	  permita	  gestionar	  los	  
+productos	  que	  vende,	  sus	  clientes,	  las	  ventas,	  etc.
+
+	  	  
+El sistema muestra los productos en stock, destacando productos destacados, recomendados, ofertas, etc. Los	  clientes	  accederán	  a	  la	  tienda	  mediante	  una	  página	  web,	  seleccionarán	  los	  
+artículos	  que	  desean	  comprar, seleccionarán la forma de pago de entre los posibles métodos	(tarjeta	  
+de	  crédito, tarjeta de  débito  o	  pago externo tipo PayPal) y, por último, confirmarán el pedido. Un pedido completado puede cancelarse en las siguientes 24 horas después del pago.
+
+Una persona puede darse de alta como usuario, identificarse como usuario (o administrador) y añadir o eliminar artículos al carro, ver el carro de la compra, buscar artículos, recuperar la contraseña y ver críticas de los productos. Una persona identificada puede, además, valorar y añadir críticas sobre productos, finalizar una compra y confirmar un pedido (también cancelarlo en las 24 horas siguientes al mismo), seleccionar la forma de pago, modificar sus datos de usuario, darse de baja como cliente, cerrar sesión, consultar el estado e historial de sus pedidos, añadir y borrar artículos de una lista de favoritos, suscribirse y darse de baja de listas de productos. Por último, un administrador puede dar de alta y baja productos, así como modificarlos.
+
+\section{Primer análisis de requisitos}
+
+Estudiemos, llegados a este punto, los requisitos que pueden extraerse del enunciado del problema. Para facilitar la visualización y posterior análisis de los mismos, los clasificaremos en los siguientes grupos:
+
+\begin{enumerate}
+\item Requisitos del sistema.
+\item Requisitos de visitante.
+\item Requisitos de cliente identificado.
+\item Requisitos de administrador.
+\end{enumerate}
+
+\subsection{Requisitos del sistema}
+
+\begin{itemize}
+\item El sistema ofrecerá recomendaciones personalizas a los clientes identificados, en función del historial de sus pedidos.
+\item El sistema mostrará los artículos en stock.
+\end{itemize}
+
+\subsection{Requisitos de visitante}
+
+Considerando como ``visitante'' al usuario que entra en la web directamente, diferenciamos sus diferentes requisitos:
+
+\begin{itemize}
+\item Un visitante puede identificarse para iniciar sesión como un cliente corriente.
+\item Un visitante puede identificarse para iniciar sesión como administrador.
+\item Un visitante puede darse de alta (registrarse) como cliente, para poder realizar compras.
+\item Los visitantes pueden añadir productos al carro.
+\item Los visitantes pueden eliminar productos del carro.
+\item Un visitante puede mostrar el contenido actual del carro.
+\item Los visitantes pueden buscar artículos.
+\item Un visitante puede recuperar contraseña, en el caso de que tenga una cuenta y no la recuerde.
+\item Los visitantes pueden ver críticas sobre los productos.
+\end{itemize}
+
+\subsection{Requisitos de cliente identificado}
+
+En caso de que un visitante inicie sesión, pasa a ser un cliente identificado. Los requisitos asociados a un cliente identificado son los siguientes:
+
+\begin{itemize}
+\item Los clientes pueden finalizar una compra, pasando al proceso de pago.
+\item Los clientes pueden seleccionar la forma de pago, después de finalizar una compra.
+\item Los clientes identificados pueden confirmar un pedido, que será el último paso del proceso de compra (tras seleccionar la forma de pago).
+\item Los clientes pueden modificar sus datos de usuario.
+\item Un cliente puede darse de baja, produciendo el borrado de su cuenta.
+\item Los clientes pueden ver el historial de compras.
+\item Los clientes pueden añadir un artículo a favoritos.
+\item Los clientes pueden ver el listado de sus artículos favoritos.
+\item Los clientes pueden suscribirse al newsletter.
+\item Los clientes pueden borrarse del newsletter.
+\item Los clientes pueden borrar un artículo de la lista de favoritos.
+\item Los clientes pueden cancelar un pedido completado (dentro del margen de tiempo).
+\item Los clientes pueden escribir críticas de los productos, siempre que se han comprado, claro.
+\item Los clientes identificados pueden cerrar su sesión.
+\item Un cliente puede consultar el estado de sus pedidos.
+\end{itemize}
+
+\subsection{Requisitos de administrador}
+
+\notamargen{Requisitos comunes}{
+Se han clasificado los requisitos en función del grupo al que son más afines. Con el fin de no repetir ningún requisito, cabe destacar que un administrador también podría cerrar sesión, aunque no se haya indicado explícitamente. Los requisitos de administrador listados son los exclusivos de dicho rol.
+}
+
+Los requisitos asociados al rol de administrador son los siguientes:
+
+\begin{itemize}
+\item Un administrador puede dar de alta un artículo.
+\item Un administrador puede dar de baja un artículo.
+\item Un administrador puede modificar un artículo.
+\end{itemize}
+
+\section{Requisitos funcionales}
+
+Con todo lo anterior, los requisitos funcionales de los que partiremos y en los que basaremos nuestro desarrollo son los siguientes:
+
+\begin{enumerate}[{\bf RF-1}]
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: El sistema debe ofrecer recomendaciones personalizadas a los clientes identificados, en función del historial de sus pedidos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Para cada usuario, el sistema deberá encontrar un listado con productos afines.
+    \item \textit{Alcanzable}: La web mostrará un listado con los productos recomendados y sus descripciones.
+    \item \textit{Relevante}: Este requisito aportaría un componente de dinamismo al sitio web, posibilitando, además, un aumento de ventas.
+    \end{itemize}
+  \end{itemize}
+
+\notamargen{Sobre los requisitos}{
+La lista de requisitos se ha elaborado siguiendo las recomendaciones del estándar IEEE 830-1998.
+}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: El sistema debe mostrar los artículos en stock.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El sistema deberá ofrecer una lista con todos los productos disponibles en un momento dado.
+    \item \textit{Alcanzable}: La web mostrará un listado con los productos existentes en stock, así como sus precios y descripciones.
+    \item \textit{Relevante}: Resulta esencial para la tienda, ya que sin mostrar los productos los usuarios no podrían inspeccionarlos y saber si quieren comprarlos.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Un visitante puede identificarse para iniciar sesión como un cliente registrado.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Dado un nombre de usuario y una contraseña, el sistema iniciará la sesión de dicho usuario, si es que existe y la contraseña es correcta.
+    \item \textit{Alcanzable}: La web pondrá a disposición del usuario un formulario de autenticación para iniciar sesión.
+    \item \textit{Relevante}: Sin este requisito no podríamos saber la identidad del usuario. Por lo tanto, es esencial llevarlo a cabo.
+    \end{itemize}
+  \end{itemize}
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Un visitante puede identificarse para iniciar sesión como administrador.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Dado un nombre de usuario y una contraseña, el sistema iniciará la sesión de dicho usuario (en modo administrador), si es que existe, la contraseña es correcta, y dicho usuario tiene permisos de administración.
+    \item \textit{Alcanzable}: La web pondrá a disposición del usuario un formulario de autenticación para iniciar sesión.
+    \item \textit{Relevante}: Sin este requisito no podríamos saber la identidad del usuario.
+    \end{itemize}
+  \end{itemize}
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Un visitante puede darse de alta (registrarse) como cliente, para poder realizar compras, mantener listas de favoritos, etc.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: La web pondrá a disposición del usuario un formulario de creación de cuenta en la tienda.
+    \item \textit{Alcanzable}: El sistema permitirá la creación de un cliente a partir de una información básica (nombre de usuario, email y password).
+    \item \textit{Relevante}: Es fundamental ofrecer la posibilidad de que los usuarios se registren sólos.
+    \end{itemize}
+  \end{itemize}
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden añadir productos al carro.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Junto a la descripción de cada producto, siempre deberá aparecer la opción de ``añadir al carrito'', que incluirá una unidad del producto seleccionado en el carro temporal.
+    \item \textit{Alcanzable}: Se deben poder añadir elementos al carrito temporal que asocia el sistema a cada usuario.
+    \item \textit{Relevante}: El hecho de mantener un carro o cesta supone un requisito básico sin el cual los usuarios no podrían comprar varios artículos de una vez, y tendrían que hacer una compra por artículo.
+    \end{itemize}
+  \end{itemize}
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden ver el contenido actual del carro.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El sistema deberá ofrecer un listado de todos los artículos que contiene el carro asociado a la sesión.
+    \item \textit{Alcanzable}: El sistema debe mantener un carrito temporal asociado a la sesión del usuario, en el que se incluyan los productos que el usuario va añadiendo al mismo.
+    \item \textit{Relevante}: El hecho de mantener un carro o cesta supone un requisito básico. Los usuarios deben poder visualizar el contenido del carro por si se da el caso de que quieran modificarlo antes de la compra.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden eliminar productos del carro.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Junto a la descripción de cada artículo incluido en el carro, deberá estar disponible la opción de ``eliminar'' del carro.
+    \item \textit{Alcanzable}: El carro asociado a la sesión que mantiene el sistema permitirá la eliminación de sus elementos.
+    \item \textit{Relevante}: El hecho de mantener un carro o cesta supone un requisito básico. Si los usuarios no pueden suprimir elementos de su carro estarían obligados a no cometer errores a la hora de añadir productos a su compra.
+    \end{itemize}
+  \end{itemize}
+
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden buscar artículos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: La web ofrecerá un listado de artículos coincidentes con la búsqueda de una o varias palabras clave, mediante una casilla de búsqueda.
+    \item \textit{Alcanzable}: El sistema permitirá la búsqueda de artículos en base a ciertos filtros.
+    \item \textit{Relevante}: Sería bastante recomendable, aunque no esencial, ofrecer la posibilidad de buscar productos. Es una forma muy rápida de encontrar stock asociado a las necesidades del usuario.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden recuperar su contraseña, en caso de que tengan una cuenta y no la recuerden.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Junto al formulario de login, aparecerá la opción de ``recordar contraseña''. El sistema, dado un nombre de usuario, enviará un correo electrónico al e-mail asociado a dicho nombre de usuario, indicándole la contraseña.
+    \item \textit{Alcanzable}: El sistema enviará un email al usuario con su password asociado.
+    \item \textit{Relevante}: Resulta bastante importante la posibilidad de que el sistema te recuerde tu contraseña, ya que, actualmente, con tantas redes sociales, webs de compras, etc. los usuarios suelen tener numerosas contraseñas, y frecuéntemente suelen ser olvidadas.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los visitantes pueden ver críticas sobre los productos de la tienda.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: En la visualización de cada producto de la tienda se mostrarán las opiniones y críticas hechas por los usuarios de la web.
+    \item \textit{Alcanzable}: Cada producto tendrá asociada una lista de opiniones hechas por los usuarios de la tienda.
+    \item \textit{Relevante}: Es muy aconsejable ofrecer opiniones sobre los productos, para evitar posibles decepciones por parte del comprador potencial.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden finalizar una compra, pasando al proceso de pago.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Mientras se muestra el carro de la compra, el usuario debe tener disponible la opción de ``finalizar compra'', que cerrará el carro, impidiendo que se añadan o eliminen elementos del mismo.
+    \item \textit{Alcanzable}: El carrito asociado a la sesión permitirá marcarlo como finalizado, para evitar el borrado o adición de productos.
+    \item \textit{Relevante}: Es un requisito fundamental para poder completar un proceso de compra de forma satisfactoria.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden seleccionar la forma de pago, después de finalizar una compra.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Una vez se haya cerrado el carro, el cliente podrá seleccionar una forma de pago (tarjeta, PayPal, etc).
+    \item \textit{Alcanzable}: El sistema ofrecerá un listado de formas de pago disponibles.
+    \item \textit{Relevante}: Es un requisito fundamental para poder completar un proceso de compra de forma satisfactoria.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes identificados pueden confirmar un pedido, que será el último paso del proceso de compra (tras seleccionar la forma de pago).
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Tras seleccionar la forma de pago, el cliente podrá dar por finalizada la compra.
+    \item \textit{Alcanzable}: El sistema permitirá finalizar un proceso de compra, una vez se haya finalizado el proceso de pago satisfactoriamente.
+    \item \textit{Relevante}: Es un requisito fundamental para poder completar un proceso de compra de forma satisfactoria.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden modificar sus datos de usuario.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El cliente tendrá a su disposición un formulario para modificar sus datos de la cuenta (todos menos el nombre de usuario). El sistema modificará internamente la información de la cuenta del usuario.
+    \item \textit{Alcanzable}: El sistema debe permitir la modificación de los clientes.
+    \item \textit{Relevante}: Es bastante recomendable permitir que los usuarios modifiquen sus datos de cuenta, ya que así pueden corregir errores, modificar su email, etc.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden darse de baja, produciendo el borrado de su cuenta.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El cliente tendrá la posibilidad de eliminar su cuenta desde el formulario de modificación.
+    \item \textit{Alcanzable}: El sistema tiene que permitir dar de baja a usuarios.
+    \item \textit{Relevante}: Es bastante aconsejable permitir la eliminación de usuarios por parte de ellos mismos. En caso contrario el sistema almacenaría usuarios inútiles, o alguien tendría que encargarse de ir borrándolos uno a uno, lo cual sería absurdo.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden ver su historial de compras.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: En la web se mostrará una sección con una tabla de historial de compras.
+    \item \textit{Alcanzable}: El sistema debe poder recuperar un listado con todas las compras que ha hecho un usuario desde que creó su cuenta.
+    \item \textit{Relevante}: No es esencial, pero sí recomendable para facilitar el trabajo del subsistema de recomendación.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden añadir un artículo a favoritos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Junto a la descripción de cada artículo del stock, o de los artículos recomendados, la web mostrará la opción de añadir dicho artículo a los favoritos (siempre que el usuario se haya identificado).
+    \item \textit{Alcanzable}: Cada cliente tiene asociada una lista de artículos favoritos, así como la posibilidad de añadir y eliminar productos de la misma.
+    \item \textit{Relevante}: Se trata de un requisito fundamental para poder hacer uso del listado de favoritos.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden borrar un artículo de la lista de favoritos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: En la lista de artículos favoritos, junto a cada artículo, debe aparecer la opción de eliminar dicho artículo de la lista.
+    \item \textit{Alcanzable}: Cada cliente tiene que permitir la eliminación de uno de sus artículos favoritos.
+    \item \textit{Relevante}: Se trata de un requisito fundamental para poder hacer uso del listado de favoritos.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden ver el listado de sus artículos favoritos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: La web mostrará, para cada cliente, una sección con sus artículos marcados como favoritos.
+    \item \textit{Alcanzable}: Cada cliente tiene asociada una lista de artículos favoritos, así como la posibilidad de añadir y eliminar productos de la misma.
+    \item \textit{Relevante}: Se trata de un requisito fundamental para poder hacer uso del listado de favoritos.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden suscribirse al newsletter.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El formulario de modificación de cuenta muestra una opción de suscripción al newsletter.
+    \item \textit{Alcanzable}: Cada cliente deberá tener asociada una propiedad booleana de suscripción al newsletter.
+    \item \textit{Relevante}: Es un requisito recomendable para la promoción de artículos.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden borrarse del newsletter.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}: 
+    \begin{itemize}
+    \item \textit{Medible}: El formulario de modificación de cuenta muestra una opción de suscripción al newsletter.
+    \item \textit{Alcanzable}: Cada cliente deberá tener asociada una propiedad booleana de suscripción al newsletter.
+    \item \textit{Relevante}: Requisito fundamental para evitar que los usuarios se cansen de recibir publicidad de la tienda.
+    \end{itemize}
+  \end{itemize}
+
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden cancelar un pedido completado (dentro del margen de tiempo).
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: En el historial de pedidos, el cliente debe poder cancelar cualquier pedido antes de que pasen 24 horas desde que se finalizó.
+    \item \textit{Alcanzable}: Los pedidos deben tener un estado modificable durante las primeras 24 horas. Hasta pasado ese tiempo el pedido no se procesaría realmente.
+    \item \textit{Relevante}: Es un requisito recomendable por si un cliente se arrepiente, por cualquier razón, de una compra ya finalizada.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden escribir críticas de los productos, siempre y cuando los hayan comprado antes.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Junto a la descripción de cada artículo, el cliente tendrá la opción de escribir una reseña del mismo. Dicha posibilidad sólo podrá ser utilizada si el cliente compró alguna vez dicho artículo.
+    \item \textit{Alcanzable}: Cada producto tiene asociada una lista de opiniones, en las que estaría indicado el usuario autor de dicha crítica.
+    \item \textit{Relevante}: Este requisito es de relativa importancia, clave para el funcionamiento del sistema de críticas y opiniones. 
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden cerrar su sesión.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: El sistema pondrá a disposición del cliente identificado una opción para salir de la sesión.
+    \item \textit{Alcanzable}: La sesión asociada a un cliente identificado puede ser cerrada. Al salir de la sesión, el usuario volverá a ser considerado visitante.
+    \item \textit{Relevante}: Se trata de un requisito fundamental para el buen funcionamiento de la plataforma web. Por cuestiones de seguridad sobre todo, los usuarios deben poder salir de su sesión.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los clientes pueden consultar el estado de sus pedidos.
+  \item \textit{Importancia}: Condicional.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: En el historial de los pedidos de un cliente se mostrará el estado de cada uno de ellos.
+    \item \textit{Alcanzable}: El sistema debe poder recuperar un listado con todas las compras que ha hecho un usuario desde que creó su cuenta. En ese listado debe aparecer el estado de los pedidos.
+    \item \textit{Relevante}: Es un requisito interesante para mejorar la calidad de la tienda online. Viendo el estado de un pedido, los clientes pueden saber dónde se encuentra su envío, o si aún tienen la posibilidad de cancelarlo.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los administradores pueden dar de alta un artículo.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Un usuario autenticado como administrador tiene que poder añadir productos al stock.
+    \item \textit{Alcanzable}: El sistema debe permitir que un usuario con permisos de administración cree artículos nuevos.
+    \item \textit{Relevante}: Requisito fundamental para el mantenimiento del stock de la tienda.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los administradores pueden dar de baja un artículo.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Un usuario autenticado como administrador tiene que poder eliminar productos del stock.
+    \item \textit{Alcanzable}: El sistema debe permitir que un usuario con permisos de administración elimine artículos existentes.
+    \item \textit{Relevante}: Requisito fundamental para el mantenimiento del stock de la tienda.
+    \end{itemize}
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: Los administradores pueden modificar un artículo.
+  \item \textit{Importancia}: Esencial.
+  \item \textit{Validez}:
+    \begin{itemize}
+    \item \textit{Medible}: Un usuario autenticado como administrador tiene que poder cambiar la información de los productos del stock.
+    \item \textit{Alcanzable}: El sistema debe permitir que un usuario con permisos de administración modifique un producto existente.
+    \item \textit{Relevante}: Requisito fundamental para el mantenimiento del stock de la tienda.
+    \end{itemize}
+  \end{itemize}
+
+
+\end{enumerate}
+
+
+
+\section{Requisitos de evolución}
+
+\begin{enumerate}[{\bf EV-1}]
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: La aplicación web debe mantenerse siempre en la última versión disponible. Mientras sea posible, los cambios deben ser trasparentes al el usuario.
+  \item \textit{Importancia}: Condicional
+  \item \textit{Validez}:
+
+    \begin{itemize}
+    \item \textit{Alcanzable}: Para cumplir este requisito, se debe mantener un control de versiones actualizado, y trabajar sobre él de forma regular.
+    \item \textit{Relevante}: Es importante mantener bien actualizado el software. Aunque funcione bien, deberá recibir mejoras periódicamente.
+    \end{itemize}
+
+  \end{itemize}
+
+\end{enumerate}
+
+\section{Requisitos de soporte}
+
+\begin{enumerate}[{\bf SO-1}]
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: El usuario final de la aplicación web debe contar con una conexión a Internet totalmente funcional para poder trabajar con el sistema.
+  \item \textit{Importancia}: Esencial
+  \end{itemize}
+
+\item 
+  \begin{itemize}
+  \item \textit{Descripción}: El usuario debe tener un navegador web funcionando en su computador, con efecto de poder acceder al sistema web.
+  \item \textit{Importancia}: Esencial
+  \end{itemize}
+
+\end{enumerate}

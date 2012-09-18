@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="default" namespace="/site" extends="struts-default">
+		<action name="PagarConTarjeta" class="pagos.PagarConTarjeta">
+			<result name="success">pedidos.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+			<result name="TarjetaCaducadaException">404.jsp</result>
+			<result name="MesInvalidoException">404.jsp</result>
+			<result name="PagoRechazadoException">404.jsp</result>
+			<result name="ImporteInvalidoException">404.jsp</result>
+		</action>
+		<action name="PagarConPayPal" class="pagos.PagarConPayPal">
+			<result name="success">pedidos.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+			<result name="UsuarioIncorrectoException">404.jsp</result>
+			<result name="ImporteInvalidoException">404.jsp</result>
+		</action>
+		
+		
+		<action name="Login" class="presentacion.actions.Login">
+			<result name="success">index.jsp</result>
+			<result name="NoHayConexionesLibresException">404.jsp</result>
+			<result name="SQLException">404.jsp</result>
+			<result name="UsuarioIncorrectoException">login.jsp?fail=login</result>
+		</action>
+		
+		<action name="AddProducto" class="presentacion.actions.AddProducto">
+			<result name="success">administrar.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+		</action>
+		
+		<action name="ModificarProducto" class="presentacion.actions.ModificarProducto">
+			<result name="success">administrar.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+		</action>
+		
+		<action name="QuitarProducto" class="presentacion.actions.QuitarProducto">
+			<result name="success">administrar.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+		</action>
+		
+		<action name="QuitarDelCarro" class="presentacion.actions.QuitarDelCarro">
+			<result name="success">carro.jsp</result>
+		</action>
+		
+		<action name="Search" class="presentacion.actions.Search">
+			<result name="success">index.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+			<result name="Exception">error.jsp</result>
+		</action>
+		
+		<action name="ModificarUnidadesEnCarro" class="presentacion.actions.ModificarUnidadesEnCarro">
+			<result name="success">carro.jsp</result>
+		</action>
+		
+		<action name="ModificarUsuario" class="presentacion.actions.ModificarUsuario">
+			<result name="success">profile.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+		</action>
+		
+		<action name="DarBaja" class="presentacion.actions.DarBaja">
+			<result name="success">index.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">SQLException.jsp</result>
+		</action>
+		
+		
+		
+		<action name="CrearCliente" class="presentacion.actions.CrearCliente">
+			<result name="success">index.jsp</result>
+			<result name="NoHayConexionesLibresException">NoHayConexionesLibresException.jsp</result>
+			<result name="SQLException">login.jsp?fail=registro2</result>
+			<result name="UsuarioIncorrectoException">login.jsp?fail=registro1</result>
+			<result name="UsuarioRegistradoException">login.jsp?fail=registro2</result>
+		</action>
+	</package>
+</struts>
+

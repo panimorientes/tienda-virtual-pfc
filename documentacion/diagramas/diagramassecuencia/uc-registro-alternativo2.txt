@@ -1,0 +1,16 @@
+#![Registrarse (escenario alternativo 2)]
+visitante:Actor
+w:Ventana de identificación
+i:Gestor de usuarios
+p:Persistencia
+
+visitante:w.rellenar datos
+visitante:w.pulsar botón de registro
+
+
+w:i.solicitud de registro
+i:p.solicitud de registro
+p:i.error. email en uso
+i:w.error. email en uso
+
+w:visitante.error. email en uso

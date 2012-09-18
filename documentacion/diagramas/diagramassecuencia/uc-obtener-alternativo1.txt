@@ -1,0 +1,14 @@
+#![Obtener Productos (escenario alternativo)]
+
+Sistema:Actor
+m:ModuloGestiónProductos
+p:Persistencia
+i:InterfazGráfica
+
+Sistema:m.Pedir Datos
+m:p.obtener todos los productos
+p:m.No hay productos
+m:Sistema.No hay productos
+
+Sistema:i.Escribir "No hay productos disponibles"
+i:i.Recargar la página

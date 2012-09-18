@@ -1,0 +1,210 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% LaTeX PRO TEMPLATE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper, 10pt, twoside]{book}
+
+% Codificación UTF8
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{eurosym}
+% Espaciado entre párrafos
+\setlength{\parskip}{5pt} 
+% Espaciado entre lineas
+\usepackage{setspace}
+% Hipervínculos dentro del documento
+\usepackage{hyperref}
+% Reemplazo de las macros para las secciones
+\usepackage{titlesec}
+% Ubicaciones absolutas
+\usepackage{float}
+% Encabezado y pie de página
+\usepackage{fancybox}
+\usepackage{fancyvrb}
+% Elementos centrados en página en plantillas book
+\usepackage{changepage}
+% Tipografía del documento
+\usepackage{amsmath}
+\usepackage{bookman}  % bookman | newcent | palatino | times
+% Para la inserción de imágenes
+\usepackage[pdftex]{graphics}
+% Configuración de página
+\usepackage{a4wide}
+\usepackage[a4paper,left=7cm,right=2cm, top=2.75cm, bottom=2.5cm, marginparwidth=2.5cm, marginparsep=1.0cm]{geometry}
+\usepackage{enumerate}
+% Para colocar bloques de texto en coordenadas absolutas
+\usepackage[absolute]{textpos}
+% Para poner imágenes PDF de fondo
+\usepackage{eso-pic}
+% Para utilizar interlineados personalizados
+\usepackage{setspace}
+\usepackage{pdfpages}
+% Macros personalizadas
+\input{cfg/ordenes.tex}
+
+% Personalización de los títulos de los capítulos
+\titleformat{\chapter}[display]{\bfseries\Huge}{
+  \filleft
+  \vspace{0.5cm}
+  \Large\chaptertitlename\ % "Capítulo" o "Apéndice"
+  \textcolor{gris}{\fontsize{90}{90}\selectfont\thechapter}\normalsize} % número de capítulo
+{0cm} % espacio mínimo entre etiqueta y cuerpo
+{\filleft} % texto del cuerpo alineado a la derecha
+[\vspace{0.5mm} \bigrule] % después del cuerpo, dejar espacio vertical y trazar línea horizontal gruesa
+
+% Para crear índices de términos
+\usepackage{makeidx}
+\makeindex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INFORMACION DEL DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+\def\titulo{SISTEMA DE TIENDA ONLINE}
+\def\subtitulo{Ingeniería del Software\\2011-2012}
+\def\autor{Sergio G., Gabriel A., David P., Jorge M.}
+\def\descripcionautor{Ingeniería Superior de Informática}
+\def\email{perico@dominio.es}
+\def\web{www.sgmonda.com}
+\def\telefono{661783482}
+\def\ano{2011}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\titulo}
+\author{\autor}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PORTADA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\include{./cfg/front-A/front-A}
+
+\pagestyle{empty}
+
+% \textbf{}\\[5cm]
+% \begin{adjustwidth*}{-140pt}{} % Margenes izquierdo y derecho
+
+%   \begin{center}
+
+%     \begin{huge}\textbf{\titulo}\end{huge}\\[0.4cm]
+%     \begin{Large}{\it \textbf{\subtitulo}}\end{Large}\\[0.9cm]
+%     \begin{large}\MakeUppercase{\autor}\end{large}\\[0.5cm]
+
+%       \textbf{}\\[7cm]
+
+%       \includegraphics[scale=0.5]{./img/uclm01.jpg}
+
+%       {\bf Universidad de Castilla-La Mancha}\par
+%       Escuela Superior de Informática\\de Ciudad Real
+%   \end{center}
+% \end{adjustwidth*}
+
+\newpage
+\mbox{}
+\vspace{16cm}
+\begin{adjustwidth*}{-100pt}{50pt} % Margenes izquierdo y derecho
+  {\bf\autor}\\[0.1cm]
+  \descripcionautor\\[0.3cm]
+%  \begin{tabular}{ll}
+%    {\it e-mail} & {\tt\email} \\[0.1cm]
+%    {\it Teléfono} & {\tt\telefono} \\[0.1cm]
+%    {\it Web} & {\tt\web}\\[0.1cm]
+%  \end{tabular}
+
+  \vspace{0.5cm}
+  \begin{small}
+    \input{./doc/license.tex}
+  \end{small}
+
+\end{adjustwidth*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \chapter*{Agradecimientos}\label{CAPAgradecimientos}
+% \input{doc/agradecimientos.tex}
+
+% \chapter*{Resumen}\label{CAPResumen}
+% \input{doc/resumen.tex}
+%\pagenumbering{arabic}
+
+\tableofcontents 
+\listoffigures
+%\listoftables
+
+\pagestyle{fancy}
+
+\chapter{Introducción}\label{CAPIntroduccion}
+\input{doc/intro.tex}
+
+\chapter{Fase de inicio}\label{CAPInicio}
+\input{doc/inicio.tex}
+
+\chapter{Fase de elaboración}\label{CAPElaboracion}
+\input{doc/elaboracion.tex}
+
+% \chapter{Fase de construcción}\label{CAPConstruccion}
+% \input{doc/construccion.tex}
+
+% \chapter{Fase de transición}\label{CAPTransicion}
+% \input{doc/transicion.tex}
+
+% \chapter{Conclusiones}\label{CAPConclusiones}
+% \input{doc/conclusiones.tex}
+
+% %%
+
+% \chapter{Introducción}\label{CAPintro}
+% \input{doc/introduccion.tex}
+
+% \chapter{Conjuntos Difusos y Variables Lingüísticas}\label{CAPFuzzySets}
+% \input{doc/conjuntos.tex}
+
+% \chapter{Razonamiento Aproximado}\label{CAPRazAprox}
+% \input{doc/reglas.tex}
+
+% \chapter{Conclusiones}\label{CAPConclusiones}
+% \input{doc/reglas.tex}
+
+% \appendix
+% \chapter{Sed purus quam}\label{APSedPurusQuam}
+% \input{doc/apendiceA.tex}
+
+% \chapter{Malius mostimer}\label{APMaliusMostimer}
+% \input{doc/apendiceB.tex}
+
+% \nocite{*}
+% \bibliographystyle{plain}
+% \bibliography{bibliografia}
+
+% \cleardoublepage
+% \printindex
+
+
+\newpage
+%\setcounter{page}{1}
+\setcounter{chapter}{0}
+\def\thechapter{\Alph{chapter}}
+\renewcommand{\chaptername}{Anexo }
+\chapter{Lista de tareas}
+\label{tareas}
+\includepdfmerge{
+doc/anexos/listaTareas.pdf,-
+}
+\chapter{Diagrama de casos de uso}
+\label{casosuso}
+%    \imagenanchototalimpar{diagramas/casosuso.png}{Diagrama de casos de uso}{casosuso}    
+\chapter{Diagrama de clases}
+\label{clases}
+\url{./diagramas/diagrama_clases.png}
+%\imagenanchototalimpar{diagramas/clases.png}{Diagrama de clases}{clases}    
+
+\chapter{Diagrama de base de datos}
+
+%\input{anexos/punteros.tex}
+%\chapter{Dónde Seguir...}
+%\input{anexos/dondeseguir.tex}
+
+\end{document}

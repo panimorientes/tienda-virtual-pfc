@@ -1,0 +1,16 @@
+#![Modificar cuenta (escenario alternativo 1)]
+visitante:Actor
+w:Ventana de modificación
+i:Gestor de usuarios
+p:Persistencia
+
+visitante:w.cambiar datos
+visitante:w.pulsar botón de guardar
+
+
+w:i.datos modificados
+i:p.datos modificados
+p:i.error. email en uso
+i:w.error. email en uso
+
+w:visitante.error. email en uso

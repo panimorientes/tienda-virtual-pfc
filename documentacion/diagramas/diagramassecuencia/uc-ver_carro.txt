@@ -1,0 +1,10 @@
+#![Ver carro (escenario normal)]
+visitante:Actor
+w:Ventana de carrito[pr]
+s:Sesion
+
+visitante:w.ver carrito
+w:s.ver carrito
+s:s.mira usuario y carrito
+s:w.contenido del carro
+w:visitante.contenido del carro

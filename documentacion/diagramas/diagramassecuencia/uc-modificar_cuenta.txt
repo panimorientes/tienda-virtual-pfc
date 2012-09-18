@@ -1,0 +1,16 @@
+#![Modificar cuenta (escenario normal)]
+visitante:Actor
+w:Ventana de modificación
+i:Gestor de usuarios
+p:Persistencia
+
+visitante:w.cambiar datos
+visitante:w.pulsar botón de guardar
+
+
+w:i.datos modificados
+i:p.datos modificados
+p:i.cambios exitosos
+i:w.cambios exitosos
+
+w:visitante.cambios realizados
